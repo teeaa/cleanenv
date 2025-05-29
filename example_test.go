@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/teeaa/cleanenv"
 )
 
 // ExampleGetDescription builds a description text from structure tags
@@ -25,7 +25,7 @@ func ExampleGetDescription() {
 	}
 
 	fmt.Println(text)
-	//Output: Environment variables:
+	// Output: Environment variables:
 	//   ONE int64
 	//     	first parameter
 	//   THREE string
@@ -50,7 +50,7 @@ func ExampleGetDescription_defaults() {
 	}
 
 	fmt.Println(text)
-	//Output: Environment variables:
+	// Output: Environment variables:
 	//   ONE int64
 	//     	first parameter (default "1")
 	//   THREE string
@@ -73,7 +73,7 @@ func ExampleGetDescription_variableList() {
 	}
 
 	fmt.Println(text)
-	//Output: Environment variables:
+	// Output: Environment variables:
 	//   ONE int64
 	//     	first found parameter
 	//   THREE int64 (alternative to ONE)
@@ -100,7 +100,7 @@ func ExampleGetDescription_customHeaderText() {
 	}
 
 	fmt.Println(text)
-	//Output: Custom header text:
+	// Output: Custom header text:
 	//   ONE int64
 	//     	first parameter
 	//   THREE string
@@ -135,19 +135,19 @@ func ExampleUpdateEnv() {
 	cleanenv.UpdateEnv(&cfg)
 	fmt.Printf("%+v\n", cfg)
 
-	//Output: {One:1 Two:2}
+	// Output: {One:1 Two:2}
 	// {One:1 Two:22}
-
 }
 
 // ExampleReadEnv reads environment variables or default values into the structure
 func ExampleReadEnv() {
 	type config struct {
-		Port     string `env:"PORT" env-default:"5432"`
-		Host     string `env:"HOST" env-default:"localhost"`
-		Name     string `env:"NAME" env-default:"postgres"`
-		User     string `env:"USER" env-default:"user"`
-		Password string `env:"PASSWORD"`
+		Port     string  `env:"PORT" env-default:"5432"`
+		Host     string  `env:"HOST" env-default:"localhost"`
+		Name     string  `env:"NAME" env-default:"postgres"`
+		User     string  `env:"USER" env-default:"user"`
+		Password string  `env:"PASSWORD"`
+		ImageCDN url.URL `env:"IMAGE_CDN"`
 	}
 
 	var cfg config
@@ -156,27 +156,12 @@ func ExampleReadEnv() {
 	os.Setenv("NAME", "redis")
 	os.Setenv("USER", "tester")
 	os.Setenv("PASSWORD", "*****")
+	os.Setenv("IMAGE_CDN", "https://images.cdn/")
 
 	cleanenv.ReadEnv(&cfg)
 	fmt.Printf("%+v\n", cfg)
 
-	//Output: {Port:5050 Host:localhost Name:redis User:tester Password:*****}
-}
-
-// ExampleReadEnv reads environment variables or default values into the structure
-func ExampleReadEnvWithURL() {
-	type config struct {
-		ImageCDN url.URL `env:"IMAGE_CDN"`
-	}
-
-	var cfg config
-
-	os.Setenv("IMAGE_CDN", "https://images.cdn/")
-
-	cleanenv.ReadEnv(&cfg)
-	fmt.Printf("%+v\n", cfg.ImageCDN.String())
-
-	//Output: https://images.cdn/
+	// Output: {Port:5050 Host:localhost Name:redis User:tester Password:***** ImageCDN:{Scheme:https Opaque: User: Host:images.cdn Path:/ RawPath: OmitHost:false ForceQuery:false RawQuery: Fragment: RawFragment:}}
 }
 
 // MyField1 is an example type with a custom setter
@@ -221,7 +206,7 @@ func Example_setter() {
 
 	cleanenv.ReadEnv(&cfg)
 	fmt.Printf("%+v\n", cfg)
-	//Output: {Default:test1 Custom1:my field is: test2 Custom2:my field is: test3}
+	// Output: {Default:test1 Custom1:my field is: test2 Custom2:my field is: test3}
 }
 
 // ConfigUpdate is a type with a custom updater
@@ -243,11 +228,11 @@ func Example_updater() {
 
 	cleanenv.ReadEnv(&cfg)
 	fmt.Printf("%+v\n", cfg)
-	//Output: {Default:default Custom:custom}
+	// Output: {Default:default Custom:custom}
 }
 
 func ExampleUsage() {
-	os.Stderr = os.Stdout //replace STDERR with STDOUT for test
+	os.Stderr = os.Stdout // replace STDERR with STDOUT for test
 
 	type config struct {
 		One   int64   `env:"ONE" env-description:"first parameter"`

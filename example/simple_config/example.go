@@ -7,7 +7,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/ilyakaznacheev/cleanenv"
+	"github.com/teeaa/cleanenv"
 )
 
 // Config is a application configuration structure
