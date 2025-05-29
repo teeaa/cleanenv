@@ -4,7 +4,7 @@
 
 Minimalistic configuration reader
 
-[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go) 
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
 [![GoDoc](https://godoc.org/github.com/ilyakaznacheev/cleanenv?status.svg)](https://godoc.org/github.com/ilyakaznacheev/cleanenv)
 [![Go Report Card](https://goreportcard.com/badge/github.com/ilyakaznacheev/cleanenv)](https://goreportcard.com/report/github.com/ilyakaznacheev/cleanenv)
 [![Coverage Status](https://codecov.io/github/ilyakaznacheev/cleanenv/coverage.svg?branch=master)](https://codecov.io/gh/ilyakaznacheev/cleanenv)
@@ -22,23 +22,28 @@ This is a simple configuration reading tool. It just does the following:
 
 ## Content
 
-- [Installation](#installation)
-- [Usage](#usage)
+- [Clean Env](#clean-env)
+  - [Overview](#overview)
+  - [Content](#content)
+  - [Installation](#installation)
+  - [Usage](#usage)
     - [Read Configuration](#read-configuration)
     - [Read Environment Variables Only](#read-environment-variables-only)
     - [Update Environment Variables](#update-environment-variables)
     - [Description](#description)
-- [Model Format](#model-format)
-- [Supported types](#supported-types)
-- [Custom Functions](#custom-functions)
+  - [Model Format](#model-format)
+  - [Supported types](#supported-types)
+  - [Custom Functions](#custom-functions)
     - [Custom Value Setter](#custom-value-setter)
     - [Custom Value Update](#custom-value-update)
-- [Supported File Formats](#supported-file-formats)
-- [Integration](#integration)
+  - [Supported File Formats](#supported-file-formats)
+  - [Integration](#integration)
     - [Flag](#flag)
-- [Examples](#examples)
-- [Contribution](#contribution)
-- [Thanks](#thanks)
+  - [Examples](#examples)
+  - [Version Support Policy](#version-support-policy)
+  - [Contribution](#contribution)
+  - [Thanks](#thanks)
+  - [Blog Posts](#blog-posts)
 
 ## Installation
 
@@ -93,7 +98,7 @@ This will do the following:
 
 Sometimes you don't want to use configuration files at all, or you may want to use `.env` file format instead. Thus, you can limit yourself with only reading environment variables:
 
-```go 
+```go
 import "github.com/ilyakaznacheev/cleanenv"
 
 type ConfigDatabase struct {
@@ -179,6 +184,8 @@ Library uses tags to configure the model of configuration structure. There are t
 - `env-description="<value>"` - environment variable description;
 - `env-layout="<value>"` - parsing layout (for types like `time.Time`);
 - `env-prefix="<value>"` - prefix for all fields of nested structure (only for nested structures);
+- `gcp_secret="projects/<project_id>/secrets/<secret_id>/versions/<version_id>"` - flag for GCP secrets, this tag will hold the full resource name of the secret version. You can use latest for the `version_id` to always get the newest version;
+- `aws_secret-"<secret_name_or_arn>"` - flag for AWS secrets, this tag will hold the name or ARN of the secret;
 
 ## Supported types
 
@@ -265,7 +272,7 @@ You can use the cleanenv help together with Golang `flag` package.
 
 ```go
 // create some config structure
-var cfg config 
+var cfg config
 
 // create flag set using `flag` package
 fset := flag.NewFlagSet("Example", flag.ContinueOnError)

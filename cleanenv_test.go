@@ -515,6 +515,7 @@ func TestReadEnvVarsTime(t *testing.T) {
 		})
 	}
 }
+
 func TestReadEnvVarsWithPrefix(t *testing.T) {
 	type Logging struct {
 		Debug bool `env:"DEBUG"`
@@ -532,7 +533,7 @@ func TestReadEnvVarsWithPrefix(t *testing.T) {
 		Extra    DBConfig `env-prefix:"EXTRA_"`
 	}
 
-	var env = map[string]string{
+	env := map[string]string{
 		"DB_HOST":           "db1.host",
 		"DB_PORT":           "10000",
 		"DB_DEBUG":          "true",
@@ -552,7 +553,7 @@ func TestReadEnvVarsWithPrefix(t *testing.T) {
 		t.Fatal("failed to read env vars", err)
 	}
 
-	var expected = Config{
+	expected := Config{
 		Default: DBConfig{
 			Host:    "db1.host",
 			Port:    10000,
@@ -595,7 +596,6 @@ type testConfigUpdateNoFunction struct {
 }
 
 func TestReadUpdateFunctions(t *testing.T) {
-
 	tests := []struct {
 		name    string
 		cfg     interface{}
@@ -1511,7 +1511,8 @@ func TestParseJSON(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			var cfg config
 			var err error
-			if err := ParseJSON(tt.r, &cfg); (err != nil) != tt.wantErr {
+			err = ParseJSON(tt.r, &cfg)
+			if err != nil && tt.wantErr {
 				t.Errorf("ParseJSON() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if err == nil && !reflect.DeepEqual(&cfg, tt.want) {
@@ -1569,7 +1570,8 @@ two = 2`),
 		t.Run(tt.name, func(t *testing.T) {
 			var cfg config
 			var err error
-			if err := ParseTOML(tt.r, &cfg); (err != nil) != tt.wantErr {
+			err = ParseTOML(tt.r, &cfg)
+			if err != nil && tt.wantErr {
 				t.Errorf("ParseTOML() error = %v, wantErr %v", err, tt.wantErr)
 			}
 			if err == nil && !reflect.DeepEqual(&cfg, tt.want) {

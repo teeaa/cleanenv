@@ -51,6 +51,12 @@ const (
 
 	// TagEnvPrefix flag to specify prefix for structure fields
 	TagEnvPrefix = "env-prefix"
+
+	// TagGcpSecret flag to specify secret in GCP Secret Manager
+	TagGcpSecret = "gcp_secret"
+
+	// TagAwsSecret flag to specify secret in AWS Secrets Manager
+	TagAwsSecret = "aws_secret"
 )
 
 // Setter is an interface for a custom value setter.
@@ -262,7 +268,6 @@ type parseFunc func(*reflect.Value, string, *string) error
 
 // Any specific supported struct can be added here
 var validStructs = map[reflect.Type]parseFunc{
-
 	reflect.TypeOf(time.Time{}): func(field *reflect.Value, value string, layout *string) error {
 		var l string
 		if layout != nil {
@@ -337,7 +342,7 @@ func readStructMetadata(cfgRoot interface{}) ([]structMeta, error) {
 
 			// process nested structure (except of supported ones)
 			if fld := s.Field(idx); fld.Kind() == reflect.Struct {
-				//skip unexported
+				// skip unexported
 				if !fld.CanInterface() {
 					continue
 				}
