@@ -4,14 +4,6 @@
 
 Minimalistic configuration reader
 
-[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
-[![GoDoc](https://godoc.org/github.com/teeaa/cleanenv?status.svg)](https://godoc.org/github.com/teeaa/cleanenv)
-[![Go Report Card](https://goreportcard.com/badge/github.com/teeaa/cleanenv)](https://goreportcard.com/report/github.com/teeaa/cleanenv)
-[![Coverage Status](https://codecov.io/github/teeaa/cleanenv/coverage.svg?branch=master)](https://codecov.io/gh/teeaa/cleanenv)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/teeaa/cleanenv/test.yml)](https://github.com/teeaa/cleanenv/actions)
-[![Release](https://img.shields.io/github/release/teeaa/cleanenv.svg)](https://github.com/teeaa/cleanenv/releases/)
-[![License](https://img.shields.io/github/license/teeaa/cleanenv.svg)](https://github.com/teeaa/cleanenv/blob/master/LICENSE)
-
 ## Overview
 
 This is a simple configuration reading tool. It just does the following:
