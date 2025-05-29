@@ -4,13 +4,13 @@
 
 Minimalistic configuration reader
 
-[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go) 
-[![GoDoc](https://godoc.org/github.com/ilyakaznacheev/cleanenv?status.svg)](https://godoc.org/github.com/ilyakaznacheev/cleanenv)
-[![Go Report Card](https://goreportcard.com/badge/github.com/ilyakaznacheev/cleanenv)](https://goreportcard.com/report/github.com/ilyakaznacheev/cleanenv)
-[![Coverage Status](https://codecov.io/github/ilyakaznacheev/cleanenv/coverage.svg?branch=master)](https://codecov.io/gh/ilyakaznacheev/cleanenv)
-[![Build Status](https://img.shields.io/github/actions/workflow/status/ilyakaznacheev/cleanenv/test.yml)](https://github.com/ilyakaznacheev/cleanenv/actions)
-[![Release](https://img.shields.io/github/release/ilyakaznacheev/cleanenv.svg)](https://github.com/ilyakaznacheev/cleanenv/releases/)
-[![License](https://img.shields.io/github/license/ilyakaznacheev/cleanenv.svg)](https://github.com/ilyakaznacheev/cleanenv/blob/master/LICENSE)
+[![Mentioned in Awesome Go](https://awesome.re/mentioned-badge.svg)](https://github.com/avelino/awesome-go)
+[![GoDoc](https://godoc.org/github.com/teeaa/cleanenv?status.svg)](https://godoc.org/github.com/teeaa/cleanenv)
+[![Go Report Card](https://goreportcard.com/badge/github.com/teeaa/cleanenv)](https://goreportcard.com/report/github.com/teeaa/cleanenv)
+[![Coverage Status](https://codecov.io/github/teeaa/cleanenv/coverage.svg?branch=master)](https://codecov.io/gh/teeaa/cleanenv)
+[![Build Status](https://img.shields.io/github/actions/workflow/status/teeaa/cleanenv/test.yml)](https://github.com/teeaa/cleanenv/actions)
+[![Release](https://img.shields.io/github/release/teeaa/cleanenv.svg)](https://github.com/teeaa/cleanenv/releases/)
+[![License](https://img.shields.io/github/license/teeaa/cleanenv.svg)](https://github.com/teeaa/cleanenv/blob/master/LICENSE)
 
 ## Overview
 
@@ -22,30 +22,35 @@ This is a simple configuration reading tool. It just does the following:
 
 ## Content
 
-- [Installation](#installation)
-- [Usage](#usage)
+- [Clean Env](#clean-env)
+  - [Overview](#overview)
+  - [Content](#content)
+  - [Installation](#installation)
+  - [Usage](#usage)
     - [Read Configuration](#read-configuration)
     - [Read Environment Variables Only](#read-environment-variables-only)
     - [Update Environment Variables](#update-environment-variables)
     - [Description](#description)
-- [Model Format](#model-format)
-- [Supported types](#supported-types)
-- [Custom Functions](#custom-functions)
+  - [Model Format](#model-format)
+  - [Supported types](#supported-types)
+  - [Custom Functions](#custom-functions)
     - [Custom Value Setter](#custom-value-setter)
     - [Custom Value Update](#custom-value-update)
-- [Supported File Formats](#supported-file-formats)
-- [Integration](#integration)
+  - [Supported File Formats](#supported-file-formats)
+  - [Integration](#integration)
     - [Flag](#flag)
-- [Examples](#examples)
-- [Contribution](#contribution)
-- [Thanks](#thanks)
+  - [Examples](#examples)
+  - [Version Support Policy](#version-support-policy)
+  - [Contribution](#contribution)
+  - [Thanks](#thanks)
+  - [Blog Posts](#blog-posts)
 
 ## Installation
 
 To install the package run
 
 ```bash
-go get -u github.com/ilyakaznacheev/cleanenv
+go get -u github.com/teeaa/cleanenv
 ```
 
 ## Usage
@@ -65,7 +70,7 @@ There are just several actions you can do with this tool and probably only thing
 You can read a configuration file and environment variables in a single function call.
 
 ```go
-import "github.com/ilyakaznacheev/cleanenv"
+import "github.com/teeaa/cleanenv"
 
 type ConfigDatabase struct {
     Port     string `yaml:"port" env:"PORT" env-default:"5432"`
@@ -93,8 +98,8 @@ This will do the following:
 
 Sometimes you don't want to use configuration files at all, or you may want to use `.env` file format instead. Thus, you can limit yourself with only reading environment variables:
 
-```go 
-import "github.com/ilyakaznacheev/cleanenv"
+```go
+import "github.com/teeaa/cleanenv"
 
 type ConfigDatabase struct {
     Port     string `env:"PORT" env-default:"5432"`
@@ -117,7 +122,7 @@ if err != nil {
 Some environment variables may change during the application run. To get the new values you need to mark these variables as updatable with the tag `env-upd` and then run the update function:
 
 ```go
-import "github.com/ilyakaznacheev/cleanenv"
+import "github.com/teeaa/cleanenv"
 
 type ConfigRemote struct {
     Port     string `env:"PORT" env-upd`
@@ -144,7 +149,7 @@ Here remote host and port may change in a distributed system architecture. Field
 You can get descriptions of all environment variables to use them in the help documentation.
 
 ```go
-import "github.com/ilyakaznacheev/cleanenv"
+import "github.com/teeaa/cleanenv"
 
 type ConfigServer struct {
     Port     string `env:"PORT" env-description:"server port"`
@@ -179,6 +184,8 @@ Library uses tags to configure the model of configuration structure. There are t
 - `env-description="<value>"` - environment variable description;
 - `env-layout="<value>"` - parsing layout (for types like `time.Time`);
 - `env-prefix="<value>"` - prefix for all fields of nested structure (only for nested structures);
+- `gcp_secret="projects/<project_id>/secrets/<secret_id>/versions/<version_id>"` - flag for GCP secrets, this tag will hold the full resource name of the secret version. You can use latest for the `version_id` to always get the newest version;
+- `aws_secret-"<secret_name_or_arn>"` - flag for AWS secrets, this tag will hold the name or ARN of the secret;
 
 ## Supported types
 
@@ -265,7 +272,7 @@ You can use the cleanenv help together with Golang `flag` package.
 
 ```go
 // create some config structure
-var cfg config 
+var cfg config
 
 // create flag set using `flag` package
 fset := flag.NewFlagSet("Example", flag.ContinueOnError)
@@ -320,4 +327,4 @@ The logo was made by [alexchoffy](https://www.instagram.com/alexchoffy/).
 
 ## Blog Posts
 
-[Clean Configuration Management in Golang](https://dev.to/ilyakaznacheev/clean-configuration-management-in-golang-1c89).
+[Clean Configuration Management in Golang](https://dev.to/teeaa/clean-configuration-management-in-golang-1c89).
